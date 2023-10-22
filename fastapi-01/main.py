@@ -11,9 +11,9 @@ async def root():
 @app.get("/api/length/{value}")
 async def length(value: int, unit: str):
     if unit == "inch":
-        return str(value * 2.54) + " inch"
+        return str(value / 2.54) + " inch"
     elif unit == "feet":
-        return str(value * 0.3048) + " feet"
+        return str(value / 0.3048) + " feet"
     else:
         return "invalid unit"
 

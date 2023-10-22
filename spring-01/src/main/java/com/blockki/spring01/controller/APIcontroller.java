@@ -17,7 +17,7 @@ public class APIcontroller {
             return value / 2.54 + " inch";
         }
         else if (unit.equals("feet")) {
-            return value * 30.48 + " feet";
+            return value / 30.48 + " feet";
         }
         else {
             return "invalid unit";
