@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class LengthDto {
+public class LengthRequestDto {
     private int value;
     private String unit;
 

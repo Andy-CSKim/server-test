@@ -1,6 +1,7 @@
 package com.blockki.spring01.controller;
 
-import com.blockki.spring01.dto.LengthDto;
+import com.blockki.spring01.dto.LengthRequestDto;
+import com.blockki.spring01.dto.LengthResponseDto;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,19 +27,25 @@ public class APIcontroller {
 
     }
     // http://localhost:8090/api/length : /length is path parameter --> @PathVariable
-    // LengthDto is body parameter --> @RequestBody, json -> java object
+    // LengthRequestDto is body parameter --> @RequestBody, json -> java object
     @PostMapping("/api/length")
-    public String cvtLength2(@RequestBody LengthDto lengthDto) {
+    public LengthResponseDto cvtLength2(@RequestBody LengthRequestDto lengthRequestDto) {
+        LengthResponseDto lengthResponseDto = new LengthResponseDto();
 
-        if (lengthDto.getUnit().equals("inch")) {
-            return lengthDto.getValue() / 2.54 + " inch";
+        if (lengthRequestDto.getUnit().equals("inch")) {
+            //return lengthRequestDto.getValue() / 2.54 + " inch";
+            lengthResponseDto.setResult(lengthRequestDto.getValue() / 2.54 + " inch");
         }
-        else if (lengthDto.getUnit().equals("feet")) {
-            return lengthDto.getValue() / 30.48 + " feet";
+        else if (lengthRequestDto.getUnit().equals("feet")) {
+            //return lengthRequestDto.getValue() / 30.48 + " feet";
+            lengthResponseDto.setResult(lengthRequestDto.getValue() / 30.48 + " feet");
         }
         else {
-            return "invalid unit";
+            //return "invalid unit";
+            lengthResponseDto.setResult("invalid unit");
         }
+
+        return lengthResponseDto;
 
     }
 }
