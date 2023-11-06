@@ -27,14 +27,26 @@ async def create_member(db: AsyncSession, member_create: schemas.MemberCreate) -
 
 async def update_member(db: AsyncSession, user_id: int, member_create: schemas.MemberCreate) -> schemas.Member:
     db_member = await db.get(models.Member, user_id)
-    db_member.name = member_create.name
-    db_member.role = member_create.role
-    await db.commit()
-    await db.refresh(db_member)
-    return db_member
 
-async def delete_member(db: AsyncSession, user_id: int) -> schemas.Member:
+    # if db_member exists, update it
+    if db_member:
+        db_member.name = member_create.name
+        db_member.role = member_create.role
+        await db.commit()
+        await db.refresh(db_member)
+        return db_member
+    
+    # if db_member does not exist, return error
+    return None
+
+async def delete_member(db: AsyncSession, user_id: int) -> str:
     db_member = await db.get(models.Member, user_id)
-    await db.delete(db_member)
-    await db.commit()
-    return db_member
+
+    # if db_member exists, delete it
+    if db_member:
+        await db.delete(db_member)
+        await db.commit()
+        return 'OK'
+    
+    # if db_member does not exist, return error
+    return 'Not found'

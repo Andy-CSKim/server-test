@@ -1,11 +1,18 @@
 package com.blockki.spring01.controller;
 
+import com.blockki.spring01.dto.MemberRequestDto;
+import com.blockki.spring01.service.ApiService;
 import com.blockki.spring01.dto.LengthRequestDto;
 import com.blockki.spring01.dto.LengthResponseDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class APIcontroller {
+
+    @Autowired
+    private ApiService apiService;
+
     @GetMapping("/hello")  // http://localhost:8090/hello : path parameter
     public String hello() {
         return "Hello World!";
@@ -13,7 +20,7 @@ public class APIcontroller {
 
     // http://localhost:8090/api/length?unit=inch : /length is path parameter --> @PathVariable
     // ?unit=inch is query parameter --> @RequestParam
-    @GetMapping("/api/length/{value}")
+    @GetMapping("/length/{value}")
     public String cvtLength(@PathVariable int value, @RequestParam String unit) {
         if (unit.equals("inch")) {
             return value / 2.54 + " inch";
@@ -28,7 +35,7 @@ public class APIcontroller {
     }
     // http://localhost:8090/api/length : /length is path parameter --> @PathVariable
     // LengthRequestDto is body parameter --> @RequestBody, json -> java object
-    @PostMapping("/api/length")
+    @PostMapping("/length")
     public LengthResponseDto cvtLength2(@RequestBody LengthRequestDto lengthRequestDto) {
         LengthResponseDto lengthResponseDto = new LengthResponseDto();
 
@@ -48,4 +55,23 @@ public class APIcontroller {
         return lengthResponseDto;
 
     }
+
+    // CRUD api
+    @GetMapping("/users")
+    public Object readMembers() {
+        return apiService.readMembers();
+    }
+    @PostMapping("/users")
+    public Object createMember(@RequestBody MemberRequestDto memberRequestDto) {
+        return apiService.createMember(memberRequestDto);
+    }
+    @PutMapping("/users/{memberId}")
+    public Object updateMember(@PathVariable long memberId, @RequestBody MemberRequestDto memberRequestDto) {
+        return apiService.updateMember(memberId, memberRequestDto);
+    }
+    @DeleteMapping("/users/{memberId}")
+    public Object deleteMember(@PathVariable long memberId) {
+        return apiService.deleteMember(memberId);
+    }
+
 }

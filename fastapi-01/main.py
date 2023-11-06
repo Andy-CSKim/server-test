@@ -12,6 +12,8 @@ from sql_app.database import SessionLocal, engine
 app = FastAPI()
 
 origins = ["http://localhost:3000",
+           "http://localhost:3001",
+           "http://127.0.0.1:3001",           
             "http://localhost:5173",
            ]
 
@@ -89,8 +91,8 @@ async def update_user(user_id: int, member: schemas.MemberCreate, db: AsyncSessi
     print("put", user)
     return user
 
-@app.delete("/users/{user_id}", response_model=schemas.Member)
-async def delete_user(user_id: int, db: AsyncSession = Depends(get_db)) -> schemas.Member:
+@app.delete("/users/{user_id}", response_model=str)
+async def delete_user(user_id: int, db: AsyncSession = Depends(get_db)) -> str:
     user = await service.delete_member(db, user_id)
     print("delete", user)
     return user
