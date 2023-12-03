@@ -14,6 +14,16 @@ async def root():
     # dictionary will be converted to json
     return {"message": "Hello World"}
 
+@app.get("/height/{value}")  # path parameter
+async def height(value: int):
+    print(f"============= height: {value} =============")
+    return str(value * 100) + " feet"  # value * 100 -> "10000" + " feet" -> "10000 feet
+
+@app.get("/length")  # query parameter. ?value=100
+async def length(value: int):
+    print(f"============= length: {value} =============")
+    return str(value * 100) + " feet"  # value * 100 -> "10000" + " feet" -> "10000 feet
+
 @app.get("/api/length/{value}")
 async def length(value: int, unit: str):
     if unit == "inch":
