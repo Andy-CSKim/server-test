@@ -8,6 +8,9 @@ class LengthRequestDto(BaseModel):
     value: int
     unit: str
 
+class User(BaseModel):
+    name: str
+    age: int
 
 @app.get("/hello")
 async def root():
@@ -32,6 +35,14 @@ async def length(value: int, unit: str):
         return str(value / 0.3048) + " feet"
     else:
         return "invalid unit"
+
+# post
+@app.post("/users")
+async def create_user(user: User):  # body parameter
+    print(f"============= create_user: {user} =============")
+    user.age = user.age + 1
+    return user
+
 
 @app.post("/api/length")
 async def length(length_request_dto: LengthRequestDto):
