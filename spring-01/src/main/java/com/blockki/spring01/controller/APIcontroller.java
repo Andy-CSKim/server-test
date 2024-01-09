@@ -7,6 +7,10 @@ import com.blockki.spring01.dto.LengthResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @RestController
 public class APIcontroller {
 
@@ -36,7 +40,7 @@ public class APIcontroller {
     // http://localhost:8090/api/length : /length is path parameter --> @PathVariable
     // LengthRequestDto is body parameter --> @RequestBody, json -> java object
     @PostMapping("/length")
-    public LengthResponseDto cvtLength2(@RequestBody LengthRequestDto lengthRequestDto) {
+    public LengthResponseDto cvtLength(@RequestBody LengthRequestDto lengthRequestDto) {
         LengthResponseDto lengthResponseDto = new LengthResponseDto();
 
         if (lengthRequestDto.getUnit().equals("inch")) {
@@ -54,6 +58,22 @@ public class APIcontroller {
 
         return lengthResponseDto;
 
+    }
+
+    @PostMapping("/length2")
+    public Object cvtLength2(@RequestBody HashMap<String, Object> lengthRequestDto) {
+
+
+//        System.out.println(lengthRequestDto.get("value"));
+//        System.out.println(lengthRequestDto.get("unit"));
+//        System.out.println(lengthRequestDto.toString());
+
+        for (Map.Entry<String, Object> entry : lengthRequestDto.entrySet()) {
+            // key, value, type
+            System.out.println(entry.getKey() + " : " + entry.getValue() + " , " + entry.getValue().getClass().getName());
+        }
+
+        return null;
     }
 
     // CRUD api
