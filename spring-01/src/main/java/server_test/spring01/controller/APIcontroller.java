@@ -1,14 +1,13 @@
-package com.blockki.spring01.controller;
+package server_test.spring01.controller;
 
-import com.blockki.spring01.dto.MemberRequestDto;
-import com.blockki.spring01.service.ApiService;
-import com.blockki.spring01.dto.LengthRequestDto;
-import com.blockki.spring01.dto.LengthResponseDto;
+import server_test.spring01.dto.MemberRequestDto;
+import server_test.spring01.service.ApiService;
+import server_test.spring01.dto.LengthRequestDto;
+import server_test.spring01.dto.LengthResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -39,27 +38,49 @@ public class APIcontroller {
     }
     // http://localhost:8090/api/length : /length is path parameter --> @PathVariable
     // LengthRequestDto is body parameter --> @RequestBody, json -> java object
+    // as to response, generic object is enough. no need to use LengthResponseDto
+    // especially when using database, it is better to use generic object because database returns various types of data
     @PostMapping("/length")
-    public LengthResponseDto cvtLength(@RequestBody LengthRequestDto lengthRequestDto) {
-        LengthResponseDto lengthResponseDto = new LengthResponseDto();
+//    public LengthResponseDto cvtLength(@RequestBody LengthRequestDto lengthRequestDto) {
+    public Object cvtLength(@RequestBody LengthRequestDto lengthRequestDto) {
+//        LengthResponseDto lengthResponseDto = new LengthResponseDto();
+
+//        if (lengthRequestDto.getUnit().equals("inch")) {
+//            //return lengthRequestDto.getValue() / 2.54 + " inch";
+//            lengthResponseDto.setResult(lengthRequestDto.getValue() / 2.54 + " inch");
+//        }
+//        else if (lengthRequestDto.getUnit().equals("feet")) {
+//            //return lengthRequestDto.getValue() / 30.48 + " feet";
+//            lengthResponseDto.setResult(lengthRequestDto.getValue() / 30.48 + " feet");
+//        }
+//        else {
+//            //return "invalid unit";
+//            lengthResponseDto.setResult("invalid unit");
+//        }
+//
+//        return lengthResponseDto;
+
+        // generic object
+        HashMap<String, Object> resp = new HashMap<>();
 
         if (lengthRequestDto.getUnit().equals("inch")) {
             //return lengthRequestDto.getValue() / 2.54 + " inch";
-            lengthResponseDto.setResult(lengthRequestDto.getValue() / 2.54 + " inch");
+            resp.put("result", lengthRequestDto.getValue() / 2.54 + " inch");
         }
         else if (lengthRequestDto.getUnit().equals("feet")) {
             //return lengthRequestDto.getValue() / 30.48 + " feet";
-            lengthResponseDto.setResult(lengthRequestDto.getValue() / 30.48 + " feet");
+            resp.put("result", lengthRequestDto.getValue() / 30.48 + " feet");
         }
         else {
             //return "invalid unit";
-            lengthResponseDto.setResult("invalid unit");
+            resp.put("result", "invalid unit");
         }
 
-        return lengthResponseDto;
+        return resp;
 
     }
 
+    // as to request, class is better than hashmap because of type safety
     @PostMapping("/length2")
     public Object cvtLength2(@RequestBody HashMap<String, Object> lengthRequestDto) {
 
@@ -73,7 +94,23 @@ public class APIcontroller {
             System.out.println(entry.getKey() + " : " + entry.getValue() + " , " + entry.getValue().getClass().getName());
         }
 
-        return null;
+//        return null;
+        HashMap<String, Object> resp = new HashMap<>();
+
+        if (lengthRequestDto.get("unit").equals("inch")) {
+            //return lengthRequestDto.getValue() / 2.54 + " inch";
+            resp.put("result", (int)lengthRequestDto.get("value") / 2.54 + " inch");
+        }
+        else if (lengthRequestDto.get("unit").equals("feet")) {
+            //return lengthRequestDto.getValue() / 30.48 + " feet";
+            resp.put("result", (int)lengthRequestDto.get("value") / 30.48 + " feet");
+        }
+        else {
+            //return "invalid unit";
+            resp.put("result", "invalid unit");
+        }
+
+        return resp;
     }
 
     // CRUD api

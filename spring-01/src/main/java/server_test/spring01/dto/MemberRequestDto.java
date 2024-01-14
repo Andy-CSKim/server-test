@@ -1,11 +1,11 @@
-package com.blockki.spring01.dto;
+package server_test.spring01.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import com.blockki.spring01.entity.Member;
+import server_test.spring01.entity.Member;
 
 @Data
 @NoArgsConstructor

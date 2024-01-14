@@ -1,4 +1,4 @@
-package com.blockki.spring01;
+package server_test.spring01;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

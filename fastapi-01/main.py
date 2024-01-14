@@ -67,6 +67,16 @@ async def length(length_request_dto: LengthRequestDto):
     else:
         return {"result": "invalid unit"}
 
+# class is better than dictionary because of type checking
+@app.post("/length2")
+async def length(length_request_dto: dict):
+    if length_request_dto["unit"] == "inch":
+        return {"result" : str(length_request_dto["value"] / 2.54) + " inch" }
+    elif length_request_dto["unit"] == "feet":
+        return {"result" : str(length_request_dto["value"] / 0.3048) + " feet"}
+    else:
+        return {"result": "invalid unit"}
+
 
 # CRUD API
 @app.get("/users", response_model=list[schemas.Member])

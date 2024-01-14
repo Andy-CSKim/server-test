@@ -12,7 +12,8 @@ class MemberCreate(MemberBase):
 class Member(MemberBase):
     id: int
     class Config:
-        orm_mode = True  # V1
+        # orm_mode = True  # V1
+        from_attributes = True  # V2
 
 
 

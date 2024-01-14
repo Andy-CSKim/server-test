@@ -1,7 +1,7 @@
-package com.blockki.spring01.service;
+package server_test.spring01.service;
 
-import com.blockki.spring01.dto.MemberRequestDto;
-import com.blockki.spring01.repository.MemberRepository;
+import server_test.spring01.dto.MemberRequestDto;
+import server_test.spring01.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 

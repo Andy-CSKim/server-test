@@ -1,4 +1,4 @@
-package com.blockki.spring01.entity;
+package server_test.spring01.entity;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
