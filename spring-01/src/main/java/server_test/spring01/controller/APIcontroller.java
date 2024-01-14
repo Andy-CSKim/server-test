@@ -1,5 +1,6 @@
 package server_test.spring01.controller;
 
+import org.springframework.validation.annotation.Validated;
 import server_test.spring01.dto.MemberRequestDto;
 import server_test.spring01.service.ApiService;
 import server_test.spring01.dto.LengthRequestDto;
@@ -7,10 +8,13 @@ import server_test.spring01.dto.LengthResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+//@Validated  // will check validation of request body
 public class APIcontroller {
 
     @Autowired
@@ -42,7 +46,7 @@ public class APIcontroller {
     // especially when using database, it is better to use generic object because database returns various types of data
     @PostMapping("/length")
 //    public LengthResponseDto cvtLength(@RequestBody LengthRequestDto lengthRequestDto) {
-    public Object cvtLength(@RequestBody LengthRequestDto lengthRequestDto) {
+    public Object cvtLength(final @Valid @RequestBody LengthRequestDto lengthRequestDto) {
 //        LengthResponseDto lengthResponseDto = new LengthResponseDto();
 
 //        if (lengthRequestDto.getUnit().equals("inch")) {
