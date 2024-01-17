@@ -107,6 +107,40 @@ async def delete_user(user_id: int, db: AsyncSession = Depends(get_db)) -> str:
     print("delete", user)
     return user
 
+# Info
+@app.get("/infos/{user_id}", response_model=list[schemas.Info])
+async def read_info(user_id: int, db: AsyncSession = Depends(get_db)) -> list[schemas.Info]:
+    infos = await service.read_info(db, user_id)
+    print("get", infos)
+    return infos
+
+@app.post("/infos", response_model=schemas.Info)
+async def create_info(info: schemas.InfoCreate, db: AsyncSession = Depends(get_db)) -> schemas.Info:
+    info = await service.create_info(db, info)
+    print("infos", info)
+    return info
+
+@app.post("/infos2/{user_id}", response_model=schemas.Info)
+async def create_info2(user_id: int, data: dict, db: AsyncSession = Depends(get_db)) -> schemas.Info:
+    info = await service.create_info2(db, user_id, data)
+    print("infos2", info)
+    return info
+
+
+
+@app.put("/infos/{info_id}", response_model=schemas.Info)
+async def update_info(info_id: int, info: schemas.InfoCreate, db: AsyncSession = Depends(get_db)) -> schemas.Info:
+    info = await service.update_info(db, info_id, info)
+    print("put", info)
+    return info
+
+@app.delete("/infos/{info_id}", response_model=str)
+async def delete_info(info_id: int, db: AsyncSession = Depends(get_db)) -> str:
+    info = await service.delete_info(db, info_id)
+    print("delete", info)
+    return info
+
+
 
 # Mounting static web page
 app.mount("/", StaticFiles(directory="static", html=True), name="static")

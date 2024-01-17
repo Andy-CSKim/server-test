@@ -9,8 +9,8 @@ import server_test.spring01.entity.Member;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
+//@AllArgsConstructor
+//@Builder
 public class MemberRequestDto {
     private String name;
     private String role;

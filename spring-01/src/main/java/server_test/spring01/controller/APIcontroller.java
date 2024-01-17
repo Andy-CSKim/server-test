@@ -1,6 +1,7 @@
 package server_test.spring01.controller;
 
 import org.springframework.validation.annotation.Validated;
+import server_test.spring01.dto.InfoRequestDto;
 import server_test.spring01.dto.MemberRequestDto;
 import server_test.spring01.service.ApiService;
 import server_test.spring01.dto.LengthRequestDto;
@@ -15,6 +16,7 @@ import java.util.Map;
 
 @RestController
 //@Validated  // will check validation of request body
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"}, allowedHeaders = "*")
 public class APIcontroller {
 
     @Autowired
@@ -133,6 +135,34 @@ public class APIcontroller {
     @DeleteMapping("/users/{memberId}")
     public Object deleteMember(@PathVariable long memberId) {
         return apiService.deleteMember(memberId);
+    }
+
+    // Info
+    @GetMapping("/infos/{userId}")
+    public Object readInfos(@PathVariable long userId) {
+        return apiService.readInfos(userId);
+    }
+
+    @PostMapping("/infos")
+    public Object createInfo(@RequestBody InfoRequestDto infoRequestDto) {
+        return apiService.createInfo(infoRequestDto);
+
+    }
+
+    @PostMapping("/infos2/{userId}")
+    public Object createInfo2(@PathVariable long userId, @RequestBody Object data) {
+
+        return apiService.createInfo2(userId, data);
+    }
+
+    @PutMapping("/infos/{infoId}")
+    public Object updateInfo(@PathVariable long infoId, @RequestBody InfoRequestDto infoRequestDto) {
+        return apiService.updateInfo(infoId, infoRequestDto);
+    }
+
+    @DeleteMapping("/infos/{infoId}")
+    public Object deleteInfo(@PathVariable long infoId) {
+        return apiService.deleteInfo(infoId);
     }
 
 }

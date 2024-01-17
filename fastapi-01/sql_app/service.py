@@ -5,6 +5,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from sql_app import models, schemas, database
 
+# dict to string
+import json
+
 async def create_db_and_tables():
     async with database.engine.begin() as conn:
         await conn.run_sync(models.Base.metadata.create_all)
@@ -49,4 +52,64 @@ async def delete_member(db: AsyncSession, user_id: int) -> str:
         return 'OK'
     
     # if db_member does not exist, return error
+    return 'Not found'
+
+# info
+async def read_info(db: AsyncSession, user_id: int) -> list[schemas.Info]:
+    query = select(models.Info).filter(models.Info.user_id == user_id)
+    result = await db.execute(query)
+    return result.scalars().all()
+
+
+async def create_info(db: AsyncSession, info_create: schemas.InfoCreate) -> schemas.Info:
+    # info_create has content and user_id, but id is not assigned yet
+    print("as string", info_create.content)
+    new_info = models.Info(**info_create.dict()) # id will be assigned by DB
+    db.add(new_info)
+    await db.commit()
+    await db.refresh(new_info)
+    return new_info
+
+async def create_info2(db: AsyncSession, user_id: int, data: dict) -> schemas.Info:
+    # info_create has content and user_id, but id is not assigned yet
+    print("as object", data)
+    # info_create.content = info_create.content.toString()
+    # new_info = models.Info(**info) # id will be assigned by DB
+
+    # import json
+    # serialized = json.dumps(dict)
+    # deserialized = json.loads(serialized)
+
+    new_info = models.Info(content=json.dumps(data), user_id=user_id) # id will be assigned by DB
+    db.add(new_info)
+    await db.commit()
+    await db.refresh(new_info)
+    return new_info
+    # return info_create
+
+
+async def update_info(db: AsyncSession, info_id: int, info_create: schemas.InfoCreate) -> schemas.Info:
+    db_info = await db.get(models.Info, info_id)
+
+    # if db_info exists, update it
+    if db_info:
+        db_info.content = info_create.content
+        db_info.user_id = info_create.user_id
+        await db.commit()
+        await db.refresh(db_info)
+        return db_info
+    
+    # if db_info does not exist, return error
+    return None
+
+async def delete_info(db: AsyncSession, info_id: int) -> str:
+    db_info = await db.get(models.Info, info_id)
+
+    # if db_info exists, delete it
+    if db_info:
+        await db.delete(db_info)
+        await db.commit()
+        return 'OK'
+    
+    # if db_info does not exist, return error
     return 'Not found'
