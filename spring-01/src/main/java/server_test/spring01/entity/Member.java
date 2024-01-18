@@ -21,7 +21,7 @@ public class Member {
 
     // idColumn means foreign key in child entity while keyColumn means primary key in parent entity
     @MappedCollection(keyColumn = "id", idColumn = "user_id")
-    private List<Info> infos = new ArrayList<>();
+    private List<Info> infos; //  = new ArrayList<>();
 
     @Builder
     public Member(Long id, String name, String role) {
