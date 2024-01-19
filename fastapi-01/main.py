@@ -1,6 +1,8 @@
 from pydantic import BaseModel
 from typing import AsyncGenerator
 
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, Depends
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
@@ -32,11 +34,16 @@ async def get_db() -> AsyncGenerator[AsyncSession, None]:
         yield session
 
 
-# async
-@app.on_event("startup")
-async def on_startup():
-    # Not needed if you setup a migration system like Alembic
+# # async
+# @app.on_event("startup")
+# async def on_startup():
+#     # Not needed if you setup a migration system like Alembic
+#     await service.create_db_and_tables()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):    
     await service.create_db_and_tables()
+
 
 # test API
 class LengthRequestDto(BaseModel):
