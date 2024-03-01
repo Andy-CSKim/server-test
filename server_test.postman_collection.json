@@ -1,0 +1,267 @@
+{
+	"info": {
+		"_postman_id": "826b7d6d-8f33-4f31-ab07-9fafab9abc28",
+		"name": "server_test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10513425"
+	},
+	"item": [
+		{
+			"name": "localhost:3001/hello",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3001/hello",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"hello"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3001/length",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"value\": 10,\r\n    \"unit\": \"inch\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3001/length",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"length"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3001/length2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"value\": 10,\r\n    \"unit\": \"inch\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3001/length2",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"length2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3001/users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3001/users",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3001/users",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"bob\",\r\n    \"role\" : \"driver\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3001/users",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3001/users/?",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"bob\",\r\n    \"role\" : \"graphic designer\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3001/users/6",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3001/users/?",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3001/users/6",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3001/infos/?",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3001/infos/2",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"infos",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3001/infos",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"content\" : \"{\\\"first\\\":[1,20,30,4],\\\"third\\\":{\\\"aa\\\":1,\\\"bb\\\":2,\\\"cc\\\":3}}\",\r\n    \"userId\" : 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3001/infos",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"infos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3001/infos/?",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"content\" : \"{\\\"first\\\":[10,20,30,40],\\\"third\\\":{\\\"aa\\\":10,\\\"bb\\\":20,\\\"cc\\\":30}}\",\r\n    \"userId\" : 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3001/infos/18",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"infos",
+						"18"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3001/infos/?",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3001/infos/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"infos",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

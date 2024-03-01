@@ -1,0 +1,18 @@
+version: '3.9'
+
+services:
+  postgres:
+    container_name: server-test-db
+    image: postgres:15.5-alpine
+    environment:
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - 5550:5432
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
+
+

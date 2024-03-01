@@ -12,8 +12,7 @@ class InfoCreate(InfoBase):
 class Info(InfoBase):
     id: int
     class Config:
-        # orm_mode = True  # V1
-        from_attributes = True  # V2
+        orm_mode = True  # V1
 
 class MemberBase(BaseModel):
     name: str
@@ -28,8 +27,7 @@ class Member(MemberBase):
     id: int
     infos: list[Info] = []
     class Config:
-        # orm_mode = True  # V1
-        from_attributes = True  # V2
+        orm_mode = True  # V1
 
 # class InfoBase2(BaseModel):
 #     content: dict
