@@ -1,9 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 
-// const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-// const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-const supabaseUrl = "https://nsphmxetqzspfomxoljn.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5zcGhteGV0cXpzcGZvbXhvbGpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTAxNTI0MzMsImV4cCI6MjAyNTcyODQzM30.Bhw298b72GUjHmRKqVNGnHLybfgacNLw-r2FG4aSbPM";
+// in vite, we can use import.meta.env.VITE_SUPABASE_URL
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
+const supabaseKey = process.env.REACT_APP_SUPABASE_KEY;
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
