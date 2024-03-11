@@ -18,6 +18,7 @@ fastapi-sso = "^0.6.4"
 google-auth = "^2.22.0"
 requests = "^2.31.0"
 pyjwt = "^2.8.0"
+greenlet = "^3.0.3"
 
 [build-system]
 requires = ["poetry-core"]

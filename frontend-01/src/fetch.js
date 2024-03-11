@@ -60,10 +60,10 @@ export const deleteUser = async (id) => {
 }
 
 // info
-export const getInfo = async (id) => {
+export const getInfo = async (userId) => {
   //const response = await authApi.get<QueryResponse>('query');
   try {
-    const response = await authApi.get(`/infos/${id}`);  // http://localhost:3100/infos
+    const response = await authApi.get(`/infos/${userId}`);  // http://localhost:3100/infos
     //console.log(response.data);
     return response.data;
   } catch (error) {
@@ -72,9 +72,9 @@ export const getInfo = async (id) => {
   }
 }
 
-export const postInfoAsString = async (id, data) => {
+export const postInfoAsString = async (userId, data) => {
 
-  const newInfo = {content: `${data}`, user_id: `${id}`};
+  const newInfo = {content: `${data}`, user_id: `${userId}`};
   try {
     const response = await authApi.post('/infos', newInfo);  // http://localhost:3100/infos
     //console.log(response.data);
@@ -85,10 +85,10 @@ export const postInfoAsString = async (id, data) => {
   }
 }
 
-export const postInfoAsObject = async (id, data) => {
+export const postInfoAsObject = async (userId, data) => {
   //const response = await authApi.get<QueryResponse>('query');
   try {
-    const response = await authApi.post(`/infos2/${id}`, data);  // http://localhost:3100/infos
+    const response = await authApi.post(`/infos2/${userId}`, data);  // http://localhost:3100/infos
     //console.log(response.data);
     return response.data;
   } catch (error) {
@@ -97,10 +97,10 @@ export const postInfoAsObject = async (id, data) => {
   }
 }
 
-export const putInfo = async (id, newInfo) => {
+export const putInfo = async (userId, newInfo) => {
   //const response = await authApi.get<QueryResponse>('query');
   try {
-    const response = await authApi.put(`/infos/${id}`, newInfo);  // http://localhost:3100/infos/6
+    const response = await authApi.put(`/infos/${userId}`, newInfo);  // http://localhost:3100/infos/6
     //console.log(response.data);
     return response.data;
   } catch (error) {
@@ -109,10 +109,10 @@ export const putInfo = async (id, newInfo) => {
   }
 }
 
-export const deleteInfo = async (id) => {
+export const deleteInfo = async (userId) => {
   //const response = await authApi.get<QueryResponse>('query');
   try {
-    const response = await authApi.delete(`/infos/${id}`);  // http://localhost:3100/infos/6
+    const response = await authApi.delete(`/infos/${userId}`);  // http://localhost:3100/infos/6
     //console.log(response.data);
     return response.data;
   } catch (error) {

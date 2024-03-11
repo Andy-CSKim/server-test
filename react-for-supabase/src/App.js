@@ -2,8 +2,7 @@
 import logo from './logo.svg';
 import './App.css';
 import {useState, useEffect, useRef} from 'react';
-import {getUser, postUser, putUser, deleteUser, getInfo, postInfoAsString, postInfoAsObject} from './fetch';
-
+import {getUser, postUser, putUser, deleteUser, getInfo, postInfoAsString} from './fetch';
 
 // function app() : what's the difference between function app() and function App()?
 // App() is a graphic component, app() is a function
@@ -26,7 +25,7 @@ function App() {
   let count = 0;
 
   // for checking how many times App() is called
-  console.log(`React visits App() to render: name=${name.current}, role=${role.current}, id=${id.current}`)
+  //console.log(`React visits App() to render: name=${name.current}, role=${role.current}, id=${id.current}`)
   
   const doGet = () => {
     console.log("Get ==> ");
@@ -99,30 +98,17 @@ function App() {
     const testObj = {first: [1, 2, 3, 4], second: {a: 1, b: 2, c: 3}};
     // const newInfo = {content: JSON.stringify(testObj), user_id: 1};
 
-    const data = JSON.stringify(testObj);
-    console.log(`Post json ==> ${data}`);
+    const content = JSON.stringify(testObj);
+    console.log(`Post json ==> ${content}`);
 
-    postInfoAsString(id.current, data).then((resp) => {
-      // server resposne is an array
-      const obj = JSON.parse(resp.content);
-      console.log(obj);
+    postInfoAsString(id.current, content).then((resp) => {
+
       // [0] : {id: 1, name: 'Lee', role: 'developer'}
-      setDataFromServer(JSON.stringify(obj, undefined, 2));
-    });
-  }
+      setDataFromServer(JSON.stringify(resp, undefined, 2));
 
-  const postObject = () => {
-    const testObj = {first: [1, 2, 3, 4], second: {a: 1, b: 2, c: 3}};
-    // const newInfo = {content: testObj, user_id: 1};
-
-    console.log(`Post Object ==> ${testObj}`);
-
-    postInfoAsObject(id.current, testObj).then((resp) => {
       // server resposne is an array
-      const obj = JSON.parse(resp.content);
-      console.log(obj);
-      // [0] : {id: 1, name: 'Lee', role: 'developer'}
-      setDataFromServer(JSON.stringify(obj, undefined, 2));
+      // const obj = JSON.parse(resp.content);
+      // console.log(obj);
     });
   }
 
@@ -143,10 +129,9 @@ function App() {
 
         <p>info example (user id is required)</p>
         <button onClick={getJson}>get JSON</button> <br/>
-        <button onClick={postJson}>post JSON string</button> <br/>
-        <button onClick={postObject}>post Object</button> <br/>        
+        <button onClick={postJson}>post JSON string</button> <br/>    
         <br/><br/>
-        <textarea name="postContent" rows={50} cols={100} value={dataFromServer}> </textarea>
+        <textarea name="postContent" rows={100} cols={100} value={dataFromServer}> </textarea>
 
       </header>
     </div>
