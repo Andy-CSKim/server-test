@@ -1,8 +1,14 @@
 package server_test.spring01.controller;
 
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import server_test.spring01.dto.InfoRequestDto;
 import server_test.spring01.dto.MemberRequestDto;
+import server_test.spring01.entity.Info;
+import server_test.spring01.entity.Member;
 import server_test.spring01.service.ApiService;
 import server_test.spring01.dto.LengthRequestDto;
 import server_test.spring01.dto.LengthResponseDto;
@@ -11,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.io.ByteArrayInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -120,49 +127,85 @@ public class APIcontroller {
     }
 
     // CRUD api
+
+    // Object -> Iterable -> List, Set, Map, ...
     @GetMapping("/users")
-    public Object readMembers() {
+    public Iterable<Member> readMembers() {
         return apiService.readMembers();
     }
+
+    // object@front -> dto@controller -> [service] repository.save(dto->entity) -> entity@db
     @PostMapping("/users")
-    public Object createMember(@RequestBody MemberRequestDto memberRequestDto) {
+    public Member createMember(@RequestBody MemberRequestDto memberRequestDto) {
         return apiService.createMember(memberRequestDto);
     }
     @PutMapping("/users/{memberId}")
-    public Object updateMember(@PathVariable long memberId, @RequestBody MemberRequestDto memberRequestDto) {
+    public Member updateMember(@PathVariable long memberId, @RequestBody MemberRequestDto memberRequestDto) {
         return apiService.updateMember(memberId, memberRequestDto);
     }
     @DeleteMapping("/users/{memberId}")
-    public Object deleteMember(@PathVariable long memberId) {
+    public String deleteMember(@PathVariable long memberId) {
         return apiService.deleteMember(memberId);
     }
 
     // Info
     @GetMapping("/infos/{userId}")
-    public Object readInfos(@PathVariable long userId) {
+    public Iterable<Info> readInfos(@PathVariable long userId) {
         return apiService.readInfos(userId);
     }
 
     @PostMapping("/infos")
-    public Object createInfo(@RequestBody InfoRequestDto infoRequestDto) {
+    public Info createInfo(@RequestBody InfoRequestDto infoRequestDto) {
         return apiService.createInfo(infoRequestDto);
 
     }
 
     @PostMapping("/infos2/{userId}")
-    public Object createInfo2(@PathVariable long userId, @RequestBody Object data) {
+    public Info createInfo2(@PathVariable long userId, @RequestBody Object data) {
 
         return apiService.createInfo2(userId, data);
     }
 
     @PutMapping("/infos/{infoId}")
-    public Object updateInfo(@PathVariable long infoId, @RequestBody InfoRequestDto infoRequestDto) {
+    public Info updateInfo(@PathVariable long infoId, @RequestBody InfoRequestDto infoRequestDto) {
         return apiService.updateInfo(infoId, infoRequestDto);
     }
 
     @DeleteMapping("/infos/{infoId}")
-    public Object deleteInfo(@PathVariable long infoId) {
+    public String deleteInfo(@PathVariable long infoId) {
         return apiService.deleteInfo(infoId);
     }
 
+    // path variable, query parameter(file_type), request body
+    @PostMapping("/upload_bytes/{userId}")
+    public String uploadBytes(@PathVariable long userId, @RequestParam String file_type, @RequestBody byte[] data) {
+        return apiService.uploadBytes(userId, file_type, data);
+    }
+
+    // path variable, form data (Upload file)
+    @PostMapping("/upload_file/{userId}")
+    public String uploadFile(@PathVariable long userId, @RequestParam String file_type, @RequestParam("file") byte[] data) {
+        return apiService.uploadBytes(userId, file_type, data);
+    }
+
+    @GetMapping("/download_file/{userId}")
+    public ResponseEntity<byte[]> downloadBytes(@PathVariable long userId) {
+
+        HttpHeaders headers = new HttpHeaders();
+        HashMap<String, Object> resp = apiService.downloadBytes(userId);
+        // according to fileType, return byte[] with either image/* or audio/*
+        if (resp.get("fileType").equals("image")) {
+            headers.add("Content-Type", "image/*");
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body((byte[])resp.get("content"));
+        }
+        else {  // audio
+            headers.add("Content-Type", "audio/*");
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body((byte[])resp.get("content"));
+        }
+
+    }
 }

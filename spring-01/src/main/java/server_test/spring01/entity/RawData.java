@@ -9,23 +9,19 @@ import org.springframework.data.relational.core.mapping.Table;
 @NoArgsConstructor
 //@AllArgsConstructor
 //@Builder
-@Table("info")
-public class Info extends InfoBase {
+@Table("raw_data")
+public class RawData extends RawDataBase {
     @Id
     private Long id;
-//    private String content;
+    // blob content
+    private byte[] content;
     private Long userId;
+//    private String fileType;
 
     @Builder
-    public Info(Long id, String content, Long userId) {
-        super(content);
-        this.id = id;
-        this.userId = userId;
-    }
-
-    @Builder
-    public Info(String content, Long userId) {
-        super(content);
+    public RawData(String fileType, byte[] content, Long userId) {
+        super(fileType);
+        this.content = content;
         this.userId = userId;
     }
 }

@@ -46,6 +46,10 @@ function App() {
       console.log(resp);
       // [0] : {id: 1, name: 'Lee', role: 'developer'}
       setDataFromServer(JSON.stringify(resp, undefined, 2));
+    })
+    .catch((error) => {
+      console.log(error);
+      setDataFromServer("Read users error!");
     });
 
   }
@@ -59,6 +63,10 @@ function App() {
       console.log(resp);
       // [0] : {id: 1, name: 'Lee', role: 'developer'}
       setDataFromServer(JSON.stringify(resp, undefined, 2));
+    })
+    .catch((error) => {
+      console.log(error);
+      setDataFromServer("Create user error!");
     });
   }
 
@@ -76,6 +84,10 @@ function App() {
       console.log(resp);
       // [0] : {id: 1, name: 'Lee', role: 'developer'}
       setDataFromServer(JSON.stringify(resp, undefined, 2));
+    })
+    .catch((error) => {
+      console.log(error);
+      setDataFromServer("Update user error!");
     });
   }
 
@@ -92,6 +104,10 @@ function App() {
       console.log(resp);
       // [0] : {id: 1, name: 'Lee', role: 'developer'}
       setDataFromServer(JSON.stringify(resp, undefined, 2));
+    })
+    .catch((error) => {
+      console.log(error);
+      setDataFromServer("Delete user error!");
     });
   }  
 
@@ -103,6 +119,7 @@ function App() {
       // server resposne is an array
       if (resp == null) {
         console.log("resp is null");
+        setDataFromServer(`no contents`);
         return;
       }
       console.log(resp);
@@ -122,6 +139,7 @@ function App() {
       // server resposne is an array
       if (resp == null) {
         console.log("resp is null");
+        setDataFromServer(`create content error!`);
         return;
       }
       console.log(resp);

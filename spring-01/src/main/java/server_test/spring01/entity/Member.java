@@ -5,7 +5,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -19,10 +18,23 @@ public class Member {
     private String name;
     private String role;
 
+
+    // xxxBase doesn't have @Id that has td do with "ResultSet contains id multiple times"
     // idColumn means foreign key in child entity while keyColumn means primary key in parent entity
     @MappedCollection(keyColumn = "id", idColumn = "user_id")
-    private List<Info> infos; //  = new ArrayList<>();
+//    private List<Info> infos; //  = new ArrayList<>();
+    private List<InfoBase> infos; //  = new ArrayList<>();
 
+    @MappedCollection(keyColumn = "id", idColumn = "user_id")
+//    private RawData rawData;
+    private RawDataBase rawDataBase;
+
+//    public Member(Long id, String name, String role, RawData rawData) {
+//        this.id = id;
+//        this.name = name;
+//        this.role = role;
+//        this.rawData = rawData;
+//    }
     @Builder
     public Member(Long id, String name, String role) {
         this.id = id;

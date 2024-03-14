@@ -66,6 +66,15 @@ async def read_info(db: AsyncSession, user_id: int) -> list[schemas.Info]:
 async def create_info(db: AsyncSession, info_create: schemas.InfoCreate) -> schemas.Info:
     # info_create has content and user_id, but id is not assigned yet
     print("as string", info_create.content, info_create.user_id)
+
+    # check if user exists
+    query = select(models.Member).filter(models.Member.id == info_create.user_id)
+    result = await db.execute(query)
+    result = result.scalars().first()
+    
+    if not result:
+        return None
+
     new_info = models.Info(**info_create.dict()) # id will be assigned by DB
     db.add(new_info)
     await db.commit()
