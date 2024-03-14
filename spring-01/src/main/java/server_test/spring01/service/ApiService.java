@@ -57,6 +57,7 @@ public class ApiService {
 
     public Info createInfo(InfoRequestDto infoRequestDto) {
 
+        System.out.println("createInfo: user id = " + infoRequestDto.getUserId());
         // check if user exists
         if (!memberRepository.existsById(infoRequestDto.getUserId())) {
             return null;

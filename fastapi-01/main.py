@@ -93,7 +93,7 @@ async def length(length_request_dto: dict):
 # async def read_user(db: AsyncSession = Depends(get_db)) -> list[schemas.Member]:  # invalid dict error if included
 async def read_user(db: AsyncSession = Depends(get_db)):  # OK
     users = await service.read_member(db) # --> list[schemas.Member] but returns list[models.Member] actually
-    print("get", users)
+    print("get /users", users)
     print("type(users), len(users)", type(users), len(users), type(users[0]), users[0])
     return users
     #return [schemas.Member.from_orm(user) for user in users]
@@ -103,38 +103,39 @@ async def read_user(db: AsyncSession = Depends(get_db)):  # OK
 @app.post("/users", response_model=schemas.Member)
 async def create_user(member: schemas.MemberCreate, db: AsyncSession = Depends(get_db)) -> schemas.Member:
     user = await service.create_member(db, member)
-    print(f"post : type={type(user)}, user={user}")
+    print(f"post /users : type={type(user)}, user={user}")
     return user
 
 @app.put("/users/{user_id}", response_model=schemas.Member)
 async def update_user(user_id: int, member: schemas.MemberCreate, db: AsyncSession = Depends(get_db)) -> schemas.Member:
     user = await service.update_member(db, user_id, member)
-    print("put", user)
+    print("put /users", user)
     return user
 
 @app.delete("/users/{user_id}", response_model=str)
 async def delete_user(user_id: int, db: AsyncSession = Depends(get_db)) -> str:
     user = await service.delete_member(db, user_id)
-    print("delete", user)
+    print("delete /users", user)
     return user
 
 # Info
 @app.get("/infos/{user_id}", response_model=list[schemas.Info])
 async def read_info(user_id: int, db: AsyncSession = Depends(get_db)) -> list[schemas.Info]:
     infos = await service.read_info(db, user_id)
-    print("get", infos)
+    print("get /infos", infos)
     return infos
 
 @app.post("/infos", response_model=schemas.Info)
 async def create_info(info: schemas.InfoCreate, db: AsyncSession = Depends(get_db)) -> schemas.Info:
+    print("post /infos request", info)
     info = await service.create_info(db, info)
-    print("infos", info)
+    print("post /infos", info)
     return info
 
 @app.post("/infos2/{user_id}", response_model=schemas.Info)
 async def create_info2(user_id: int, data: dict, db: AsyncSession = Depends(get_db)) -> schemas.Info:
     info = await service.create_info2(db, user_id, data)
-    print("infos2", info)
+    print("post /infos2", info)
     return info
 
 
@@ -142,13 +143,13 @@ async def create_info2(user_id: int, data: dict, db: AsyncSession = Depends(get_
 @app.put("/infos/{info_id}", response_model=schemas.Info)
 async def update_info(info_id: int, info: schemas.InfoCreate, db: AsyncSession = Depends(get_db)) -> schemas.Info:
     info = await service.update_info(db, info_id, info)
-    print("put", info)
+    print("put /infos", info)
     return info
 
 @app.delete("/infos/{info_id}", response_model=str)
 async def delete_info(info_id: int, db: AsyncSession = Depends(get_db)) -> str:
     info = await service.delete_info(db, info_id)
-    print("delete", info)
+    print("delete /infos", info)
     return info
 
 
@@ -157,7 +158,7 @@ async def delete_info(info_id: int, db: AsyncSession = Depends(get_db)) -> str:
 async def upload_bytes(user_id: int, file_type: str, file: bytes = File(), db: AsyncSession = Depends(get_db)) -> str:
     # print("upload_bytes", result)
     # return result
-    print(f"upload_bytes : type = {file_type} user id = {user_id}, len = {len(file)}")
+    print(f"post /upload_bytes : type = {file_type} user id = {user_id}, len = {len(file)}")
     # raw_data = BytesIO(file)
     print("contents", file[:200])
 
@@ -171,7 +172,7 @@ async def upload_file(user_id: int, file_type: str = Form(), file: UploadFile = 
     # print("upload_file", result)
     # return result
 
-    print(f"upload_file : type = {file_type} user id = {user_id}")
+    print(f"post /upload_file : type = {file_type} user id = {user_id}")
     contents = await file.read()
     print("length of contents", len(contents))
     print("contents", contents[:200])
@@ -186,7 +187,7 @@ async def upload_file(user_id: int, file_type: str = Form(), file: UploadFile = 
 async def download(user_id: int, db: AsyncSession = Depends(get_db)) -> Union[bytes, None]:
     result = await service.read_raw_data(db, user_id)
     if result:
-        print("download_file", result['file_type']) 
+        print("get /download_file", result['file_type']) 
         print(result['content'][:100])
     return Response(result['content'], media_type="image/*" if result['file_type'] == 'image' else "audio/*")
 

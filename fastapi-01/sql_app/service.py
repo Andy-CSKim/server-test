@@ -65,7 +65,7 @@ async def read_info(db: AsyncSession, user_id: int) -> list[schemas.Info]:
 
 async def create_info(db: AsyncSession, info_create: schemas.InfoCreate) -> schemas.Info:
     # info_create has content and user_id, but id is not assigned yet
-    print("as string", info_create.content, info_create.user_id)
+    print("service.create_info", info_create.content, info_create.user_id)
 
     # check if user exists
     query = select(models.Member).filter(models.Member.id == info_create.user_id)
