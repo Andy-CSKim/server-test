@@ -4,6 +4,8 @@ import './App.css';
 import {useState, useEffect, useRef} from 'react';
 import {getUser, postUser, putUser, deleteUser, getInfo, postInfoAsString, postInfoAsObject, sendBytes, sendFile, rcvFile} from './fetch';
 
+import ReactAudioPlayer from 'react-audio-player';
+
 // function app() : what's the difference between function app() and function App()?
 // App() is a graphic component, app() is a function
 
@@ -28,12 +30,13 @@ function App() {
   const fileInput = useRef(null);
   const [rawData, setRawData] = useState([]);
 
-  const audioOrImage = useRef("image");
+  // const audioOrImage = useRef("image");
+  const [audioOrImage, setAudioOrImage] = useState("image");
 
   let count = 0;
 
   // for checking how many times App() is called
-  console.log(`React visits App() to render: name=${name.current}, role=${role.current}, id=${id.current} audioOrImage=${audioOrImage.current}`)
+  console.log(`React visits App() to render: name=${name.current}, role=${role.current}, id=${id.current} audioOrImage=${audioOrImage}`)
   
   const doGet = () => {
     console.log("Get ==> ");
@@ -179,9 +182,9 @@ function App() {
   }
 
   const uploadHandler = () => {
-    console.log(audioOrImage.current, fileInput.current);
+    console.log(audioOrImage, fileInput.current);
 
-    sendBytes(userId.current, audioOrImage.current, fileInput.current).then((resp) => {
+    sendBytes(userId.current, audioOrImage, fileInput.current).then((resp) => {
       // server resposne is an array
       console.log(resp);
       // [0] : {id: 1, name: 'Lee', role: 'developer'}
@@ -191,9 +194,9 @@ function App() {
   }
 
   const uploadFileHandler = () => {
-    console.log(audioOrImage.current, fileInput.current);
+    console.log(audioOrImage, fileInput.current);
 
-    sendFile(userId.current, audioOrImage.current, fileInput.current).then((resp) => {
+    sendFile(userId.current, audioOrImage, fileInput.current).then((resp) => {
       // server resposne is an array
       console.log(resp);
       // [0] : {id: 1, name: 'Lee', role: 'developer'}
@@ -218,6 +221,12 @@ function App() {
       setDataFromServer(`size of raw data: ${resp.size}bytes`);
       // server resposne is an array
       console.log(resp);
+      // check the type of resp and set Image or Audio
+      if (resp.type.includes("audio")) {
+        setAudioOrImage("audio");
+      } else {
+        setAudioOrImage("image");
+      }
       setRawData(URL.createObjectURL(resp));
     });
 
@@ -246,10 +255,15 @@ function App() {
         <br/>
 
         <p>user(1) : file(1) example (with user id above)</p>
-        <input type="radio" name="fileType" value="audio" onChange={e => audioOrImage.current = e.target.value } /> audio
-        <input type="radio" name="fileType" value="image" checked={true} onChange={e => audioOrImage.current = e.target.value } /> image  &nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" name="fileType" value="audio" checked={audioOrImage!=="image"} onChange={e => setAudioOrImage(e.target.value) } /> audio
+        <input type="radio" name="fileType" value="image" checked={audioOrImage==="image"} onChange={e => setAudioOrImage(e.target.value) } /> image  &nbsp;&nbsp;&nbsp;&nbsp;
 
-        <input type="file" id="file" name="file" ref={fileInput} onChange={e => fileInput.current = e.target.files[0]} /><br/>
+        <div>
+          {audioOrImage === "image"
+            ? <input type="file" id="file" name="file" accept="image/*" ref={fileInput} onChange={e => fileInput.current = e.target.files[0]} />
+            : <input type="file" id="file" name="file" accept="audio/*" ref={fileInput} onChange={e => fileInput.current = e.target.files[0]} />
+          }
+        </div>
         <button onClick={uploadHandler}>upload as byte</button> &nbsp;&nbsp;
         <button onClick={uploadFileHandler}>upload as multipart files</button> &nbsp;&nbsp;
         <button onClick={downloadFileHandler}>read raw data</button>
@@ -257,7 +271,11 @@ function App() {
         <br/><br/>
         <textarea name="postContent" rows={40} cols={100} value={dataFromServer}> </textarea>
         <br/><br/>
-        <img src={`${rawData}`} width={400} height={400} alt="logo"/>
+        <div>
+          {audioOrImage === "image" 
+            ? <img src={`${rawData}`} width={400} height={400} alt="logo"/> 
+            : <ReactAudioPlayer src={`${rawData}`} controls/>}
+        </div>
 
 
       {/* </header> */}

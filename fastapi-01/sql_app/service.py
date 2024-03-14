@@ -125,15 +125,15 @@ async def save_raw_data(db: AsyncSession, user_id: int, file_type: str, data: by
 
     result = result.scalars().first()
 
-    print(f"save_raw_data : query = {result}, user id = {user_id}")
+    # print(f"save_raw_data : query = {result}, user id = {user_id}")
     # if RawData exists, update it
     if result:
-        print("update raw data")
+        print(f"update raw data : {file_type}")
         new_raw_data = result
         new_raw_data.content = data
-        new_raw_data.type = file_type
+        new_raw_data.file_type = file_type
     else:
-        print("create raw data")
+        print(f"create raw data : {file_type}")
         new_raw_data = models.RawData(content=data, file_type=file_type, user_id=user_id)
         db.add(new_raw_data)
 
