@@ -120,3 +120,59 @@ export const deleteInfo = async (userId) => {
     return null;
   }
 }
+
+export const sendBytes = async (userId, file_type, file) => {
+
+  const formData = new FormData();
+  // formData.append('file_type', file_type);
+  formData.append('file', file);
+
+  console.log(`sendBytes ==> ${userId}, ${file_type}, ${file}`);
+  
+  try {
+    const response = await authApi.post(`/upload_bytes/${userId}?file_type=${file_type}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });  // http://localhost:3100/upload
+    //console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+export const sendFile = async (userId, file_type, file) => {
+
+  const formData = new FormData();
+  formData.append('file_type', file_type);
+  formData.append('file', file);
+
+  try {
+    const response = await authApi.post(`/upload_file/${userId}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });  // http://localhost:3100/upload
+    //console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  } 
+}
+
+export const rcvFile = async (userId) => {
+  
+    try {
+      const response = await authApi.get(`/download_file/${userId}`, {
+        responseType: 'blob'
+      });  // http://localhost:3100/download
+      //console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    } 
+  }
