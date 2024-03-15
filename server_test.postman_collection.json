@@ -25,34 +25,32 @@
 			"response": []
 		},
 		{
-			"name": "localhost:3001/length",
+			"name": "localhost:3001/length-path/10?unit=inch",
 			"request": {
-				"method": "POST",
+				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"value\": 10,\r\n    \"unit\": \"inch\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
-					"raw": "localhost:3001/length",
+					"raw": "localhost:3001/length-path/10?unit=inch",
 					"host": [
 						"localhost"
 					],
 					"port": "3001",
 					"path": [
-						"length"
+						"length-path",
+						"10"
+					],
+					"query": [
+						{
+							"key": "unit",
+							"value": "inch"
+						}
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "localhost:3001/length2",
+			"name": "localhost:3001/length-dto",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -66,13 +64,40 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3001/length2",
+					"raw": "localhost:3001/length-dto",
 					"host": [
 						"localhost"
 					],
 					"port": "3001",
 					"path": [
-						"length2"
+						"length-dto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3001/length-object",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"value\": 10,\r\n    \"unit\": \"inch\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3001/length-object",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"length-object"
 					]
 				}
 			},

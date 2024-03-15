@@ -58,7 +58,7 @@ async def root():
     # dictionary will be converted to json
     return {"message": "Hello World"}
 
-@app.get("/length/{value}")
+@app.get("/length-path/{value}")
 async def length(value: int, unit: str):
     if unit == "inch":
         return str(value / 2.54) + " inch"
@@ -67,7 +67,7 @@ async def length(value: int, unit: str):
     else:
         return "invalid unit"
 
-@app.post("/length")
+@app.post("/length-dto")
 async def length(length_request_dto: LengthRequestDto):
     if length_request_dto.unit == "inch":
         return {"result" : str(length_request_dto.value / 2.54) + " inch" }
@@ -77,7 +77,7 @@ async def length(length_request_dto: LengthRequestDto):
         return {"result": "invalid unit"}
 
 # class is better than dictionary because of type checking
-@app.post("/length2")
+@app.post("/length-object")
 async def length(length_request_dto: dict):
     if length_request_dto["unit"] == "inch":
         return {"result" : str(length_request_dto["value"] / 2.54) + " inch" }
