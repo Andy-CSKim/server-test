@@ -156,6 +156,11 @@ public class APIcontroller {
 
     @PostMapping("/infos")
     public Info createInfo(@RequestBody InfoRequestDto infoRequestDto) {
+
+        // (front by json) {content: `${data}`, user_id: `${userId}`} --> infoRequestDto (content, userId) : error happens
+        // name should be same as json key
+
+        System.out.println("post /infos -> createInfo: content=" + infoRequestDto.getContent() + ", user id=" + infoRequestDto.getUserId());
         return apiService.createInfo(infoRequestDto);
 
     }
@@ -177,18 +182,20 @@ public class APIcontroller {
     }
 
     // path variable, query parameter(file_type), request body
-    @PostMapping("/upload_bytes/{userId}")
-    public String uploadBytes(@PathVariable long userId, @RequestParam String file_type, @RequestBody byte[] data) {
-        return apiService.uploadBytes(userId, file_type, data);
+    @PostMapping(path = "/upload-bytes/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String uploadBytes(@PathVariable long userId, @RequestParam String fileType, @RequestPart("file") byte[] data){
+        System.out.println("uploadBytes: " + userId + ", " + fileType + ", " + data.length + " bytes");
+        return apiService.uploadBytes(userId, fileType, data);
     }
 
     // path variable, form data (Upload file)
-    @PostMapping("/upload_file/{userId}")
-    public String uploadFile(@PathVariable long userId, @RequestParam String file_type, @RequestParam("file") byte[] data) {
-        return apiService.uploadBytes(userId, file_type, data);
+    @PostMapping(path = "/upload-file/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String uploadFile(@PathVariable long userId, @RequestPart("fileType") String fileType, @RequestPart("file") byte[] data) {
+        System.out.println("uploadFile: " + userId + ", " + fileType + ", " + data.length + " bytes");
+        return apiService.uploadBytes(userId, fileType, data);
     }
 
-    @GetMapping("/download_file/{userId}")
+    @GetMapping("/download-file/{userId}")
     public ResponseEntity<byte[]> downloadBytes(@PathVariable long userId) {
 
         HttpHeaders headers = new HttpHeaders();

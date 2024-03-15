@@ -56,6 +56,7 @@ function App() {
 
   const doPost = () => {
     console.log(`Post ==> name=${name.current}, role=${role.current}`)
+    // json follows snake case
     const newUser = {name: `${name.current}`, role: `${role.current}`};
 
     postUser(newUser).then((resp) => {
@@ -72,6 +73,7 @@ function App() {
 
   const doPut = () => {
     console.log(`Put ==> id=${id.current}, name=${name.current}, role=${role.current}`)
+    // json follows snake case
     const curUser = {name: `${name.current}`, role: `${role.current}`};
 
     if (id.current == 0) {

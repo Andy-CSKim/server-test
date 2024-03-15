@@ -1,5 +1,6 @@
 package server_test.spring01.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import server_test.spring01.entity.Info;
@@ -8,6 +9,7 @@ import server_test.spring01.entity.Info;
 @NoArgsConstructor
 public class InfoRequestDto {
     private String content;
+    @JsonProperty("user_id")  // Be careful, use userId instead of user_id
     private Long userId;
 
     public Info toEntity() {

@@ -125,8 +125,8 @@ async def read_info(user_id: int, db: AsyncSession = Depends(get_db)) -> list[sc
     print("get /infos", infos)
     return infos
 
-@app.post("/infos", response_model=schemas.Info)
-async def create_info(info: schemas.InfoCreate, db: AsyncSession = Depends(get_db)) -> schemas.Info:
+@app.post("/infos", response_model=Union[schemas.Info, None])
+async def create_info(info: schemas.InfoCreate, db: AsyncSession = Depends(get_db)) -> Union[schemas.Info, None]:
     print("post /infos request", info)
     info = await service.create_info(db, info)
     print("post /infos", info)
@@ -153,37 +153,38 @@ async def delete_info(info_id: int, db: AsyncSession = Depends(get_db)) -> str:
     return info
 
 
-@app.post("/upload_bytes/{user_id}", response_model=str)
+# query parameter should be same as function parameter
+@app.post("/upload-bytes/{user_id}", response_model=str)
 # async def upload_bytes(user_id: int, file_type: str = Form(), file: bytes = File(), db: AsyncSession = Depends(get_db)) -> schemas.RawData:
-async def upload_bytes(user_id: int, file_type: str, file: bytes = File(), db: AsyncSession = Depends(get_db)) -> str:
+async def upload_bytes(user_id: int, fileType: str, file: bytes = File(), db: AsyncSession = Depends(get_db)) -> str:
     # print("upload_bytes", result)
     # return result
-    print(f"post /upload_bytes : type = {file_type} user id = {user_id}, len = {len(file)}")
+    print(f"post /upload_bytes : type = {fileType} user id = {user_id}, len = {len(file)}")
     # raw_data = BytesIO(file)
     print("contents", file[:200])
 
-    result = await service.save_raw_data(db, user_id, file_type, file)
+    result = await service.save_raw_data(db, user_id, fileType, file)
 
     return "OK" if result else "Not OK"
 
-@app.post("/upload_file/{user_id}", response_model=str)
-async def upload_file(user_id: int, file_type: str = Form(), file: UploadFile = File(...), db: AsyncSession = Depends(get_db)) -> str:
+@app.post("/upload-file/{user_id}", response_model=str)
+async def upload_file(user_id: int, fileType: str = Form(), file: UploadFile = File(...), db: AsyncSession = Depends(get_db)) -> str:
     # result = await service.upload_file(db, user_id, file)
     # print("upload_file", result)
     # return result
 
-    print(f"post /upload_file : type = {file_type} user id = {user_id}")
+    print(f"post /upload-file : type = {fileType} user id = {user_id}")
     contents = await file.read()
     print("length of contents", len(contents))
     print("contents", contents[:200])
 
-    result = await service.save_raw_data(db, user_id, file_type, contents)
+    result = await service.save_raw_data(db, user_id, fileType, contents)
     #return result
 
     return "OK" if result else "Not OK"
 
 # return image
-@app.get("/download_file/{user_id}", response_model=Union[bytes, None])
+@app.get("/download-file/{user_id}", response_model=Union[bytes, None])
 async def download(user_id: int, db: AsyncSession = Depends(get_db)) -> Union[bytes, None]:
     result = await service.read_raw_data(db, user_id)
     if result:

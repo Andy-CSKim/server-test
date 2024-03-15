@@ -74,6 +74,7 @@ export const getInfo = async (userId) => {
 
 export const postInfoAsString = async (userId, data) => {
 
+  // json follows snake case
   const newInfo = {content: `${data}`, user_id: `${userId}`};
   try {
     const response = await authApi.post('/infos', newInfo);  // http://localhost:3100/infos
@@ -121,16 +122,16 @@ export const deleteInfo = async (userId) => {
   }
 }
 
-export const sendBytes = async (userId, file_type, file) => {
+export const sendBytes = async (userId, fileType, file) => {
 
   const formData = new FormData();
   // formData.append('file_type', file_type);
   formData.append('file', file);
 
-  console.log(`sendBytes ==> ${userId}, ${file_type}, ${file}`);
+  console.log(`sendBytes ==> ${userId}, ${fileType}, ${file}`);
   
   try {
-    const response = await authApi.post(`/upload_bytes/${userId}?file_type=${file_type}`, formData, {
+    const response = await authApi.post(`/upload-bytes/${userId}?fileType=${fileType}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -143,14 +144,14 @@ export const sendBytes = async (userId, file_type, file) => {
   }
 }
 
-export const sendFile = async (userId, file_type, file) => {
+export const sendFile = async (userId, fileType, file) => {
 
   const formData = new FormData();
-  formData.append('file_type', file_type);
+  formData.append('fileType', fileType);
   formData.append('file', file);
 
   try {
-    const response = await authApi.post(`/upload_file/${userId}`, formData, {
+    const response = await authApi.post(`/upload-file/${userId}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -166,7 +167,7 @@ export const sendFile = async (userId, file_type, file) => {
 export const rcvFile = async (userId) => {
   
     try {
-      const response = await authApi.get(`/download_file/${userId}`, {
+      const response = await authApi.get(`/download-file/${userId}`, {
         responseType: 'blob'
       });  // http://localhost:3100/download
       //console.log(response.data);
