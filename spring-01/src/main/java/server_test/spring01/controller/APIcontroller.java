@@ -9,6 +9,7 @@ import server_test.spring01.dto.InfoRequestDto;
 import server_test.spring01.dto.MemberRequestDto;
 import server_test.spring01.entity.Info;
 import server_test.spring01.entity.Member;
+import server_test.spring01.entity.MemberBase;
 import server_test.spring01.service.ApiService;
 import server_test.spring01.dto.LengthRequestDto;
 import server_test.spring01.dto.LengthResponseDto;
@@ -101,6 +102,10 @@ public class APIcontroller {
     }
 
     // CRUD api
+    @GetMapping("/query-test/{id}")
+    public Iterable<Member> queryTest(@PathVariable long id, @RequestParam String role) {
+        return apiService.queryTest(id, role);
+    }
 
     // Object -> Iterable -> List, Set, Map, ...
     @GetMapping("/users")

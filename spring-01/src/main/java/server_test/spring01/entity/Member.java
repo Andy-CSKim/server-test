@@ -7,16 +7,17 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 //@AllArgsConstructor
 //@Builder
 @Table("member")
-public class Member {
+public class Member extends MemberBase {
     @Id
     private Long id;
-    private String name;
-    private String role;
+//    private String name;
+//    private String role;
 
 
     // xxxBase doesn't have @Id that has td do with "ResultSet contains id multiple times"
@@ -37,9 +38,10 @@ public class Member {
 //    }
     @Builder
     public Member(Long id, String name, String role) {
+        super(name, role);
         this.id = id;
-        this.name = name;
-        this.role = role;
+//        this.name = name;
+//        this.role = role;
     }
 //
 //    //@Builder

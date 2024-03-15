@@ -5,6 +5,7 @@ import server_test.spring01.dto.InfoRequestDto;
 import server_test.spring01.dto.MemberRequestDto;
 import server_test.spring01.entity.Info;
 import server_test.spring01.entity.Member;
+import server_test.spring01.entity.MemberBase;
 import server_test.spring01.entity.RawData;
 import server_test.spring01.repository.InfoRepository;
 import server_test.spring01.repository.MemberRepository;
@@ -132,5 +133,15 @@ public class ApiService {
             return result;
         }
         return null;
+    }
+
+    public Iterable<Member> queryTest(long id, String role) {
+        // find by role
+        Iterable<Member> resp = memberRepository.findByRole(role);
+//        Iterable<Member> resp = memberRepository.findByQuery(id, role);
+
+        System.out.println("(queryTest) resp: " + resp);
+
+        return resp;
     }
 }
