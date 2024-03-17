@@ -13,7 +13,7 @@ export const getUser = async () => {
   //const response = await authApi.get<QueryResponse>('query');
   try {
     const response = await authApi.get('/users');  // http://localhost:3100/users
-    //console.log(response.data);
+    console.log(response);
     return response.data;
   } catch (error) {
     console.log(error);

@@ -19,8 +19,8 @@ class Member(Base):
     role = mapped_column(String)
 
     # schema.Member.infos is list[schema.Info]
-    infos = relationship("InfoBase", lazy="selectin") # exclude user_id
-    # infos = relationship("Info", lazy="selectin")
+    # infos = relationship("InfoBase", lazy="selectin") # exclude user_id
+    infos = relationship("InfoBase", lazy="selectin")
     # raw_data = relationship("RawData", lazy="selectin")
     # raw_data = relationship("RawData", uselist=False, back_populates="member")  # 1 to 1
     # raw_data = relationship("RawData", uselist=False, lazy='selectin')  # 1 to 1

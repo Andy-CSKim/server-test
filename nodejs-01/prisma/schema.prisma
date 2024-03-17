@@ -1,20 +1,44 @@
+// npx prisma generate  # yarn prisma generate ?
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model user {
+
+model member {
   id     Int         @id @default(autoincrement())
   name   String      @db.VarChar(99)
-  email  String      @db.VarChar(99)
-  status user_status
+  role  String      @db.VarChar(99)
+  // status user_status
+  infos   info[]    
+  raw_data raw_data?
 }
 
-enum user_status {
-  active
-  inactive
+// enum member_status {
+//   active
+//   inactive
+// }
+
+// model info (id, content, user_id)
+model info {
+  id        Int      @id @default(autoincrement())
+  content   String
+  // member_id is foreign key, ? means it's optional  
+  user_id Int?
+  member    member?   @relation(fields: [user_id], references: [id])
 }
+
+// model raw_data (id, file_type, content, user_id)
+model raw_data {
+  id        Int      @id @default(autoincrement())
+  file_type String
+  content   Bytes
+  // member_id is foreign key, ? means it's optional  
+  user_id Int?  @unique
+  member    member?   @relation(fields: [user_id], references: [id])
+}
+

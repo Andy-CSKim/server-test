@@ -116,7 +116,7 @@ async def update_user(user_id: int, member: schemas.MemberCreate, db: AsyncSessi
 async def delete_user(user_id: int, db: AsyncSession = Depends(get_db)) -> str:
     user = await service.delete_member(db, user_id)
     print("delete /users", user)
-    return user
+    return "success"
 
 # Info
 @app.get("/infos/{user_id}", response_model=list[schemas.Info])
