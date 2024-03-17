@@ -49,8 +49,15 @@ class MemberCreate(MemberBase):
 class Member(MemberBase):
     id: int # id should be here
     # model_config = ConfigDict(from_attributes =True)  # V2
-    infos: list[InfoBase] = []
-    raw_data : RawDataBase = None # error if not None
+
+    # models.Member.infos decides whether user_id is included
+    # both x : doesn't show user_id
+    # models o, schema x : shows user_id
+    # models x, schema o : doesn't show user_id
+
+    # infos: list[InfoBase] = [] # relating to models.Member.infos
+    infos: list[Info] = []
+    raw_data : RawData = None # error if not None
     class Config:
         orm_mode = True  # V1
 

@@ -14,11 +14,13 @@ class Base(DeclarativeBase):
 class Member(Base):
     __tablename__ = "member"
     id = mapped_column(Integer, primary_key=True)
+    # id: Mapped[int] = mapped_column(primary_key=True)
     name = mapped_column(String)
     role = mapped_column(String)
 
     # schema.Member.infos is list[schema.Info]
-    infos = relationship("InfoBase", lazy="selectin")
+    infos = relationship("InfoBase", lazy="selectin") # exclude user_id
+    # infos = relationship("Info", lazy="selectin")
     # raw_data = relationship("RawData", lazy="selectin")
     # raw_data = relationship("RawData", uselist=False, back_populates="member")  # 1 to 1
     # raw_data = relationship("RawData", uselist=False, lazy='selectin')  # 1 to 1

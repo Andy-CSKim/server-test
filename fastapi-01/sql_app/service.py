@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, load_only, Bundle
 from sqlalchemy import select, func, text
 
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -61,6 +61,34 @@ async def read_info(db: AsyncSession, user_id: int) -> list[schemas.Info]:
     query = select(models.Info).filter(models.Info.user_id == user_id)
     result = await db.execute(query)
     return result.scalars().all()
+
+# read info with id
+# no change in response_model whether it is schemas.Info or schemas.InfoBase
+async def read_info_with_id(db: AsyncSession, info_id: int): # -> str:
+    # select content and user_id
+    # query = select(models.Info.user_id, models.Info.content).where(models.Info.id == info_id)
+
+    # show the firt item
+    # query = select(models.Info.user_id, models.Info.content).filter(models.Info.id == info_id)
+
+    # load_only()
+    # fields = ['content', 'user_id']
+    # query = select(models.Info).options(load_only(*fields)).filter(models.Info.id == info_id) # NG
+    # query = select(models.Info).options(load_only(models.Info.content)).filter(models.Info.id == info_id) # error if single field ???
+
+    # query = select(models.Member).filter(models.Member.id == info_id) # error if single field ???
+    # query = select(models.Member.name, models.Member.role).select_from(query)
+
+
+    # KeyError: Column('id', Integer(), table=<member>, primary_key=True, nullable=False)
+    # query = select(models.Member).from_statement(text("SELECT name, role FROM member WHERE id = :id")).params(id=info_id)
+    query = select(models.Member).from_statement(text("SELECT * FROM member WHERE id = :id")).params(id=info_id) # OK
+
+    result = await db.execute(query)
+    return result.scalars().all()
+    
+    # result = await db.scalars(query)
+    # return result.first()
 
 
 async def create_info(db: AsyncSession, info_create: schemas.InfoCreate) -> schemas.Info:

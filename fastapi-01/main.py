@@ -125,6 +125,14 @@ async def read_info(user_id: int, db: AsyncSession = Depends(get_db)) -> list[sc
     print("get /infos", infos)
     return infos
 
+# read info with id
+@app.get("/infos-id/{info_id}") #, response_model=schemas.Info)
+async def read_info_with_id(info_id: int, db: AsyncSession = Depends(get_db)): # -> schemas.Info:
+    info = await service.read_info_with_id(db, info_id)
+    print(f"get /infos-id/{info_id}", info)
+    return info
+
+
 @app.post("/infos", response_model=Union[schemas.Info, None])
 async def create_info(info: schemas.InfoCreate, db: AsyncSession = Depends(get_db)) -> Union[schemas.Info, None]:
     print("post /infos request", info)
