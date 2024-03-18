@@ -27,6 +27,9 @@ python main.py
 - cd directory
 yarn install (one time)
 
+- run prisma (whenever changeing schema.prisma)
+yarn prisma generate
+
 - run the server
 yarn dev
 
