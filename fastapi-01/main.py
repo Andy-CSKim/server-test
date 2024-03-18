@@ -1,3 +1,4 @@
+import uvicorn
 from pydantic import BaseModel
 from typing import AsyncGenerator, Annotated, Union
 
@@ -202,3 +203,6 @@ async def download(user_id: int, db: AsyncSession = Depends(get_db)) -> Union[by
 
 # Mounting static web page
 # app.mount("/", StaticFiles(directory="static", html=True), name="static")
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=3001)
