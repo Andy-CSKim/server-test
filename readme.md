@@ -24,18 +24,18 @@ python main.py
 - run the project
 
 ### node server
-- cd directory
+- cd directory  
 yarn install (one time)
 
-- run prisma (whenever changeing schema.prisma)
+- run prisma (whenever changeing schema.prisma)  
 yarn prisma generate
 
-- run the server
+- run the server  
 yarn dev
 
 ### react client
-- cd directory
+- cd directory  
 yarn install (one time)
 
-- run the client
+- run the client  
 yarn start
