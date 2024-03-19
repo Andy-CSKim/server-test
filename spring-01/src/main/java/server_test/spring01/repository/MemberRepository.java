@@ -1,10 +1,8 @@
 package server_test.spring01.repository;
 
 import org.springframework.data.jdbc.repository.query.Query;
-import org.springframework.expression.spel.ast.Literal;
-import server_test.spring01.entity.Member;
 import org.springframework.data.repository.CrudRepository;
-import server_test.spring01.entity.MemberBase;
+import server_test.spring01.entity.Member;
 
 public interface MemberRepository extends CrudRepository<Member, Long>{
 
