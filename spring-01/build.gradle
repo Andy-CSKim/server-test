@@ -8,8 +8,12 @@ plugins {
 group = 'server_test.spring01'
 version = '0.0.1-SNAPSHOT'
 
+// add toolchain for gradle build
 java {
 	sourceCompatibility = '11'
+	toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
 }
 
 configurations {
